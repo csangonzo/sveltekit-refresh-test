@@ -5,7 +5,8 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-        $session.user = 'test';
+        console.log('LAYOUT MOUNT');
+
         if ($session.user) {
             silentRefresh.start();
         }

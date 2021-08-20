@@ -2,11 +2,33 @@
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
-	 export async function load({ page, fetch, session, context }) {
+	 export async function load({session}) {
 
-		console.log('TEST ABOUT')
-		return {}
+       
+		if (!session?.user) {
+			return {
+				status: 302,
+				redirect: '/'
+			};
+		}
+
+		return {
+            props: {
+                test: 'This is some test response'
+            }
+        }
 	 }
+</script>
+
+<script lang="ts">
+import { onMount } from "svelte";
+
+    export let test;
+
+    onMount(() => {
+        console.log('ABOUT MOUNT');
+    })
+
 </script>
 
 <svelte:head>
@@ -15,7 +37,12 @@
 
 <h1>About</h1>
 
-<input type="text" name="" id="">
+<h2>{test}</h2>
+
+
+
+
+<input type="text" name="" id="" bind:value={test}>
 
 <p>
 	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

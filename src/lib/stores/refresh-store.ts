@@ -1,14 +1,13 @@
 import { writable } from 'svelte/store';
 import { session } from '$app/stores';
 
-
 let started: boolean = false;   // Determines whether it started or not
 let timeout: any;               // Timeout to clear it on cancel
 let time: number = 5000;        //8*60000;     // Time to next refresh
 
 
 function createCount() {
-    const { subscribe, set } = writable(0);
+    const { subscribe, set } = writable(null);
 
     return {
         subscribe,
@@ -33,7 +32,7 @@ async function refreshToken() {
         const { user } = await fetch('/auth/token-refresh', { method: 'POST' }).then((r) => r.json());
 
         if (user) {    
-            session.update(v => ({...v, user})); // Remove this line to stop refreshing the current page on every refresh
+            session.update(v => ({...v, user}));
             refreshToken();
         }
 
